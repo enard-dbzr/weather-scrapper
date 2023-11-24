@@ -18,7 +18,7 @@ def global_init(db_conn_str):
     if not db_conn_str.strip():
         raise ValueError("Необходимо указать файл базы данных.")
 
-    print(f"Подключение к базе данных по адресу {db_conn_str}")
+    print(f"Подключение к базе данных")
 
     __engine = create_engine(db_conn_str, echo=False)
 
