@@ -1,3 +1,5 @@
+import logging
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, DeclarativeBase
 import sqlalchemy.ext.declarative as dec
@@ -16,11 +18,11 @@ def global_init(db_conn_str):
         return
 
     if not db_conn_str.strip():
-        raise ValueError("Необходимо указать файл базы данных.")
+        raise ValueError("You must specify db file")
 
-    print(f"Подключение к базе данных")
-
+    logging.info("Connecting to db...")
     __engine = create_engine(db_conn_str, echo=False)
+    logging.info("Connected")
 
     from . import __all_models
 

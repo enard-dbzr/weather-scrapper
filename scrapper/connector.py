@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from sqlalchemy import select
 
@@ -17,6 +18,8 @@ class Connector:
             for date, temperature in self.forecasted_paser.parse():
                 weather = Weather(date=date, forecasted_temp=temperature)
 
+                logging.debug(f"Received forecast: {weather}")
+
                 db.add(weather)
 
             db.commit()
@@ -28,5 +31,6 @@ class Connector:
                 temp = self.real_parser.parse(weather.date)
                 if temp is not None:
                     weather.real_temp = temp
+                logging.debug(f"Updated weather: {weather}")
 
             db.commit()
