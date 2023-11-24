@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     con = Connector()
 
-    schedule.every(os.getenv("INTERVAL", 24)).seconds.do(con.tick)
+    schedule.every(int(os.getenv("INTERVAL", 24))).hours.do(con.tick)
 
     con.tick()
 
