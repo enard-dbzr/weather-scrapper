@@ -12,6 +12,9 @@ class RealWeatherParser:
         soup = BeautifulSoup(get(self.resource.format(date)).text, "lxml")
 
         table = soup.find("form", {"name": "show_actual_weather"}).find_next_sibling("table")
+        if table is None:
+            return None
+
         weather_row = table.find_all("tr")[2]
         weather_col = weather_row.find_all("td")[1]
         weather_text = weather_col.find("li").text
