@@ -1,3 +1,4 @@
+import logging
 import os
 
 from models import db_session
@@ -9,6 +10,9 @@ db_connection_str = (f"postgresql+psycopg2://"
                      f"{os.getenv('POSTGRES_HOST')}:"
                      f"{os.getenv('POSTGRES_PORT')}/"
                      f"{os.getenv('POSTGRES_USER')}")
+
+logging.basicConfig(format="[%(levelname)s]: %(asctime)s - %(name)s - %(message)s",
+                    level=os.getenv("DEBUG_LEVEL", "INFO"))
 
 
 def init_app():
