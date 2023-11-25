@@ -12,8 +12,14 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    with db_session.create_session() as db:
-        uniq_ids = select(func.min(Weather.id)).group_by(Weather.date, Weather.forecasted_temp)
-        weather_data = db.scalars(select(Weather).where(Weather.id.in_(uniq_ids)))
+    with (db_session.create_session() as db):
+        uniq_ids = select(func.min(Weather.id)
+                          ).group_by(Weather.date, Weather.forecasted_temp)
+        weathers = db.scalars(select(Weather)
+                              .where(Weather.id.in_(uniq_ids))
+                              .order_by(Weather.date.desc())).all()
 
-        return render_template("index.html", weather_data=weather_data)
+        distances = [abs(w.real_temp - w.forecasted_temp)
+                     if w.real_temp is not None else None for w in weathers]
+
+    return render_template("index.html", weather_data=zip(weathers, distances))

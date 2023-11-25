@@ -1,41 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-6">
-            <form>
-                <div class="input-group mb-3">
-                    <input type="date" class="form-control" id="datePicker" placeholder="Select date"
-                           aria-label="Select date" aria-describedby="button-addon">
-                    <button class="btn btn-outline-primary" type="button" id="button-addon">Search</button>
-                </div>
-            </form>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <form>
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" id="datePicker" placeholder="Select date"
+                               aria-label="Select date" aria-describedby="button-addon">
+                        <button class="btn btn-outline-primary" type="button" id="button-addon">Search</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Real Temperature (°C)</th>
-                        <th>Forecasted Temperature (°C)</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for weather in weather_data %}
-                    <tr class="rounded">
-                        <td>{{ weather.date }}</td>
-                        <td>{{ '&mdash;' | safe if weather.real_temp == None else weather.real_temp }}</td>
-                        <td>{{ weather.forecasted_temp }}</td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+        <div class="row">
+            <div class="col">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th class="text-center">Real Temperature (°C)</th>
+                            <th class="text-center">Forecasted Temperature (°C)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for weather, dist in weather_data %}
+                            {% if dist != None and dist <= 3 %}
+                                {% set style = 'bg-success-subtle' %}
+                            {% elif dist != None and dist <= 6 %}
+                                {% set style = 'bg-warning-subtle' %}
+                            {% elif dist != None %}
+                                {% set style = 'bg-danger-subtle' %}
+                            {% else %}
+                                {% set style = 'bg-info-subtle' %}
+                            {% endif %}
+
+                            <tr>
+                                <td class="{{ style | safe }}">{{ weather.date }}</td>
+                                <td class="text-center {{ style | safe }}">{{ '&mdash;' | safe if weather.real_temp == None else weather.real_temp }}</td>
+                                <td class="text-center {{ style | safe }}">{{ weather.forecasted_temp }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
