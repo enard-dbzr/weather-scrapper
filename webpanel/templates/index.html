@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-12 col-md-4">
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -46,6 +46,17 @@
                     </table>
                 </div>
             </div>
+            <div class="col-12 col-md-8">
+                <canvas id="weatherChart"></canvas>
+            </div>
         </div>
     </div>
+{% endblock %}
+
+{% block postscripts %}
+    <script>
+        const real_data = {{ real_timeline | safe }};
+        const forecasted_data = {{ forecasted_timeline | safe }};
+    </script>
+    <script src="/static/js/timeline_chart.js"></script>
 {% endblock %}
