@@ -5,8 +5,8 @@ from flask import Flask, render_template
 from sqlalchemy import select
 from sqlalchemy.sql.expression import func
 
-from models import db_session
-from models.weather import Weather
+from database import db_session
+from database.weather import Weather
 
 app = Flask(__name__)
 

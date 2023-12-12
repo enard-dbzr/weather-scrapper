@@ -6,7 +6,7 @@ import schedule
 import sqlalchemy.exc
 
 from connector import Connector
-from models.db_session import global_init
+from database.db_session import global_init
 
 logging.basicConfig(format="[%(levelname)s]: %(asctime)s - %(name)s - %(message)s",
                     level=os.getenv("DEBUG_LEVEL", "INFO"))

@@ -4,9 +4,11 @@ import re
 from requests import get
 from bs4 import BeautifulSoup
 
+WEATHER_DOMAIN = "http://www.chelpogoda.ru"
+
 
 class RealWeatherParser:
-    resource = "http://www.chelpogoda.ru/weather/actual:{}/"
+    resource = WEATHER_DOMAIN + "/weather/actual:{}/"
 
     def parse(self, date: datetime.date):
         soup = BeautifulSoup(get(self.resource.format(date)).text, "lxml")
@@ -24,7 +26,7 @@ class RealWeatherParser:
 
 
 class WeatherForecastParser:
-    resource = "http://www.chelpogoda.ru/weather"
+    resource = WEATHER_DOMAIN + "/weather"
     all_months = ["январь", "февраль", "март", "апрель", "май", "июнь",
                   "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"]
 

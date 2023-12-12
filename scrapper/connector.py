@@ -4,8 +4,8 @@ import logging
 from sqlalchemy import select
 
 import parsers
-from models import db_session
-from models.weather import Weather
+from database import db_session
+from database.weather import Weather
 
 
 class Connector:

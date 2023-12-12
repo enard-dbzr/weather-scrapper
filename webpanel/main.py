@@ -1,7 +1,10 @@
 import logging
 import os
+import time
 
-from models import db_session
+import sqlalchemy.exc
+
+from database import db_session
 from web import app
 
 db_connection_str = (f"postgresql+psycopg2://"
@@ -16,7 +19,13 @@ logging.basicConfig(format="[%(levelname)s]: %(asctime)s - %(name)s - %(message)
 
 
 def init_app():
-    db_session.global_init(db_connection_str)
+    while True:
+        try:
+            db_session.global_init(db_connection_str)
+            break
+        except sqlalchemy.exc.OperationalError:
+            logging.error("Failed to connect db")
+            time.sleep(10)
 
     return app
 
