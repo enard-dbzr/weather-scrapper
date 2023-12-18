@@ -21,11 +21,11 @@ db_connection_str = (f"postgresql+psycopg2://"
 if __name__ == "__main__":
     while True:
         try:
+            time.sleep(5)
             global_init(db_connection_str)
             break
-        except sqlalchemy.exc.OperationalError:
+        except (sqlalchemy.exc.OperationalError, sqlalchemy.exc.IntegrityError):
             logging.error("Failed to connect db")
-            time.sleep(10)
 
     con = Connector()
 
